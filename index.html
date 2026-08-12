@@ -1,0 +1,675 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>学科网书城数据看板</title>
+    <!-- 外部依赖（defer：不阻塞渲染，按声明顺序执行） -->
+    <script src="chart.min.js" defer></script>
+    <!-- CSS（优先渲染） -->
+    <link rel="stylesheet" href="dashboard.css?v=16">
+    
+    <!-- 主题色覆盖 - Logo 黄橙色系 -->
+    <style>
+        :root {
+            --color-primary-500: #f5d76e !important;
+            --color-primary-600: #eab308 !important;
+            --color-primary-400: #fde047 !important;
+        }
+    </style>
+</head>
+<body>
+    <!-- 无障碍：跳转到主要内容 -->
+    <a href="#main-content" class="skip-link">跳转到主要内容</a>
+    
+    <!-- ARIA实时区域：加载状态和操作反馈 -->
+    <div id="ariaLiveRegion" class="sr-only" aria-live="polite" aria-atomic="true"></div>
+    
+    <!-- 加载状态覆盖层 -->
+    <div id="loadingOverlay" class="loading-overlay" role="alert" aria-busy="true">
+        <div class="loading-content">
+            <div class="loading-spinner"></div>
+            <div class="loading-text">加载中...</div>
+        </div>
+    </div>
+    
+    <div class="dashboard" id="main-content" role="main">
+        
+        <div class="mode-switcher">
+            <div class="mode-switcher-content">
+                <div class="mode-switcher-left">
+                    <div class="logo-container">
+                        <img src="logo.png" alt="学科网" class="logo-img">
+                    </div>
+                    <div class="mode-switcher-title">
+                        <span id="dashboardName">学科网书城数据看板</span>
+                    </div>
+                    <div class="period-toggle dashboard-toggle" role="tablist" aria-label="看板切换">
+                        <button class="period-btn active" data-dashboard="bookstore" role="tab" aria-selected="true" aria-label="切换到书城数据看板">书城</button>
+                        <button class="period-btn" data-dashboard="aibc" role="tab" aria-selected="false" aria-label="切换到智书数据看板">智书</button>
+                    </div>
+                </div>
+                <div class="mode-switcher-right">
+                    <div class="period-toggle" role="tablist" aria-label="数据周期切换">
+                        <button class="period-btn active" data-period="weekly" role="tab" aria-selected="true" aria-label="切换到周度数据">周度</button>
+                        <button class="period-btn" data-period="monthly" role="tab" aria-selected="false" aria-label="切换到月度数据">月度</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="dataLoadError" class="data-load-error" style="display: none;">
+            <div class="error-icon">⚠️</div>
+            <div class="error-content">
+                <strong>数据加载失败</strong>
+                <span id="dataLoadErrorMsg">无法加载数据。</span>
+                <div class="error-hint">
+                    如通过本地服务器访问，请运行 <code>node server.js</code> 后访问 <code>http://localhost:8080</code><br>
+                    如直接打开 HTML 文件，请确认 JS 数据文件（weeklyData.js 等）存在于同目录下。
+                </div>
+            </div>
+        </div>
+
+        <div class="header">
+            <div class="header-content">
+                <h1 id="dashboardTitle">学科网书城周度数据看板</h1>
+                <div class="header-controls">
+                    <div class="time-selector">
+                        <label id="timeSelectorLabel" for="timeSelector">数据周期：</label>
+                        <select id="timeSelector" aria-describedby="timeSelectorLabel">
+                            <!-- 动态生成选项 -->
+                        </select>
+                    </div>
+                    <div class="view-toggle" role="tablist" aria-label="视图切换">
+                        <button class="active" data-view="simple" role="tab" aria-selected="true" aria-label="核心数据视图">核心数据</button>
+                        <button data-view="detailed" role="tab" aria-selected="false" aria-label="详细数据视图">详细数据</button>
+                        <button data-view="material" id="materialViewBtn" style="display: none;" role="tab" aria-selected="false" aria-label="资料维度视图">资料维度</button>
+                        <button data-view="merchant" id="merchantViewBtn" style="display: none;" role="tab" aria-selected="false" aria-label="商家维度视图">商家维度</button>
+                    </div>
+                    <div class="ai-analysis-trigger">
+                        <button id="aiAnalysisBtn" class="ai-btn" aria-label="打开AI数据分析助手">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                                <path d="M12 2L13.09 8.26L20 9L13.09 9.74L12 16L10.91 9.74L4 9L10.91 8.26L12 2Z" stroke="currentColor" stroke-width="2" fill="currentColor" opacity="0.8"/>
+                                <path d="M19 11L19.5 13.5L22 14L19.5 14.5L19 17L18.5 14.5L16 14L18.5 13.5L19 11Z" stroke="currentColor" stroke-width="1.5" fill="currentColor" opacity="0.6"/>
+                                <path d="M5 6L5.5 7.5L7 8L5.5 8.5L5 10L4.5 8.5L3 8L4.5 7.5L5 6Z" stroke="currentColor" stroke-width="1.5" fill="currentColor" opacity="0.6"/>
+                            </svg>
+                            AI分析
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        
+        <div id="simple-view" class="simple-view">
+            <div class="key-metrics">
+                <div class="metric-card">
+                    <div class="metric-card-left">
+                        <div class="metric-title">生产（发布资料）</div>
+                        <div class="metric-value" id="productionValue">-</div>
+                        <div class="metric-changes">
+                            <div class="change-item">
+                                <div class="change-label">环比</div>
+                                <div class="change-value" id="productionMoM">-</div>
+                            </div>
+                            <div class="change-item">
+                                <div class="change-label">同比</div>
+                                <div class="change-value" id="productionYoY">-</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="metric-card-right">
+                        <div class="key-chart-container">
+                            <canvas id="productionKeyChart" role="img" aria-label="生产（发布资料）趋势迷你图"></canvas>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="metric-card">
+                    <div class="metric-card-left">
+                        <div class="metric-title">总消费</div>
+                        <div class="metric-value" id="consumptionValue">-</div>
+                        <div class="metric-changes">
+                            <div class="change-item">
+                                <div class="change-label">环比</div>
+                                <div class="change-value" id="consumptionMoM">-</div>
+                            </div>
+                            <div class="change-item">
+                                <div class="change-label">同比</div>
+                                <div class="change-value" id="consumptionYoY">-</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="metric-card-right">
+                        <div class="key-chart-container">
+                            <canvas id="consumptionKeyChart" role="img" aria-label="总消费趋势迷你图"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 生产和总消费对比趋势图 -->
+            <div class="comparison-chart-section">
+                <div class="category-header">
+                    <h3>生产与总消费对比趋势</h3>
+                    <p>生产（发布资料）与总消费的变化趋势对比分析</p>
+                </div>
+                <div class="category-chart">
+                    <div class="chart-container">
+                        <canvas id="productionConsumptionComparisonChart" role="img" aria-label="生产与总消费对比趋势图，显示发布资料数量和总消费量的同期对比"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        
+        <div id="detailed-view" class="detailed-view">
+            
+            <div class="category-section">
+                <div class="category-header">
+                    <h3>1. 供给</h3>
+                    <p>内容发布与资料供给情况，包括资料发布和专辑征集创建</p>
+                </div>
+                <div class="category-metrics" id="productionSection">
+                    
+                </div>
+                <div class="category-chart">
+                    <div class="chart-header">
+                        <h4>供给趋势</h4>
+                        <div class="chart-tabs" role="tablist" aria-label="供给趋势指标选择">
+                            <button class="chart-tab active" data-metric="production" data-category="production" role="tab" aria-selected="true" aria-label="生产（发布资料）">生产（发布资料）</button>
+                            <button class="chart-tab" data-metric="collection" data-category="production" role="tab" aria-selected="false" aria-label="征集（创建专辑）">征集（创建专辑）</button>
+                        </div>
+                    </div>
+                    <div class="chart-container">
+                        <canvas id="productionChart" role="img" aria-label="供给趋势图，显示生产和征集数据的同期对比"></canvas>
+                    </div>
+                </div>
+            </div>
+            
+            
+            <div class="category-section">
+                <div class="category-header">
+                    <h3>2. 消费情况</h3>
+                    <p>各端消费情况及占比分析<br>
+                    <strong>关系说明：</strong>总消费 = C端消费 + B端消费，消费（C端）= 消费（C-储值）+ 消费（C-现金），消费占比 = 总消费 ÷ 大盘消费</p>
+                </div>
+                <div class="category-metrics" id="consumptionSection">
+                    
+                </div>
+                <div class="category-chart">
+                    <div class="chart-header">
+                        <h4>消费情况趋势</h4>
+                        <div class="chart-tabs" role="tablist" aria-label="消费趋势指标选择">
+                            <button class="chart-tab active" data-metric="totalConsumption" data-category="consumption" role="tab" aria-selected="true" aria-label="总消费">总消费</button>
+                            <button class="chart-tab" data-metric="cConsumption" data-category="consumption" role="tab" aria-selected="false" aria-label="C端消费">C端消费</button>
+                            <button class="chart-tab" data-metric="cStoredConsumption" data-category="consumption" role="tab" aria-selected="false" aria-label="消费（C-储值）">消费（C-储值）</button>
+                            <button class="chart-tab" data-metric="cCashConsumption" data-category="consumption" role="tab" aria-selected="false" aria-label="消费（C-现金）">消费（C-现金）</button>
+                            <button class="chart-tab" data-metric="bConsumption" data-category="consumption" role="tab" aria-selected="false" aria-label="B端消费">B端消费</button>
+                            <button class="chart-tab" data-metric="bConsumptionRatio" data-category="consumption" role="tab" aria-selected="false" aria-label="B端消费占比">B端消费占比</button>
+                            <button class="chart-tab" data-metric="consumptionRatio" data-category="consumption" role="tab" aria-selected="false" aria-label="消费占比">消费占比</button>
+                        </div>
+                    </div>
+                    <div class="chart-container">
+                        <canvas id="consumptionChart" role="img" aria-label="消费情况趋势图，显示各端消费数据的同期对比"></canvas>
+                    </div>
+                </div>
+            </div>
+            
+            
+            <div class="category-section">
+                <div class="category-header">
+                    <h3>3. 下载数据</h3>
+                    <p>付费与免费下载情况（总下载量 = 付费下载 + 免费下载）</p>
+                </div>
+                <div class="category-metrics" id="downloadSection">
+                    
+                </div>
+                <div class="category-chart">
+                    <div class="chart-header">
+                        <h4>下载数据趋势</h4>
+                        <div class="chart-tabs" role="tablist" aria-label="下载数据指标选择">
+                            <button class="chart-tab active" data-metric="totalDownload" data-category="download" role="tab" aria-selected="true" aria-label="总下载量">总下载量</button>
+                            <button class="chart-tab" data-metric="paidDownload" data-category="download" role="tab" aria-selected="false" aria-label="付费下载">付费下载</button>
+                            <button class="chart-tab" data-metric="freeDownload" data-category="download" role="tab" aria-selected="false" aria-label="免费下载">免费下载</button>
+                        </div>
+                    </div>
+                    <div class="chart-container">
+                        <canvas id="downloadChart" role="img" aria-label="下载数据趋势图，显示付费和免费下载量的同期对比"></canvas>
+                    </div>
+                </div>
+            </div>
+            
+            
+            <div class="category-section">
+                <div class="category-header">
+                    <h3>4. 用户数据</h3>
+                    <p>用户活跃度与下载用户构成（总下载用户 = C端用户 + B端储值卡用户 + B端免费用户）</p>
+                </div>
+                <div class="category-metrics" id="userSection">
+                    
+                </div>
+                <div class="category-chart">
+                    <div class="chart-header">
+                        <h4>用户数据趋势</h4>
+                        <div class="chart-tabs" role="tablist" aria-label="用户数据指标选择">
+                            <button class="chart-tab active" data-metric="loginVisitorUV" data-category="user" role="tab" aria-selected="true" aria-label="登录访客UV">登录访客UV</button>
+                            <button class="chart-tab" data-metric="totalDownloadUsers" data-category="user" role="tab" aria-selected="false" aria-label="总下载用户">总下载用户</button>
+                            <button class="chart-tab" data-metric="cDownloadUsers" data-category="user" role="tab" aria-selected="false" aria-label="C端用户">C端用户</button>
+                            <button class="chart-tab" data-metric="bCardDownloadUsers" data-category="user" role="tab" aria-selected="false" aria-label="下载用户（B端储值卡）">下载用户（B端储值卡）</button>
+                            <button class="chart-tab" data-metric="bFreeDownloadUsers" data-category="user" role="tab" aria-selected="false" aria-label="下载用户（B端免费）">下载用户（B端免费）</button>
+                        </div>
+                    </div>
+                    <div class="chart-container">
+                        <canvas id="userChart" role="img" aria-label="用户数据趋势图，显示登录访客和下载用户的同期对比"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        
+        <div id="material-view" class="material-view" style="display: none;">
+            
+            <div class="category-section">
+                <div class="category-header">
+                    <h3>1. 学段分布</h3>
+                    <p>不同学段的资料消费分布情况</p>
+                </div>
+                <div class="dimension-content">
+                    <div class="dimension-charts">
+                        <div class="pie-chart-container">
+                            <canvas id="gradeDistributionChart" role="img" aria-label="学段分布饼图，显示小学、初中、高中、中职的消费占比"></canvas>
+                        </div>
+                        <div class="metrics-table-container">
+                            <table class="dimension-table">
+                                <thead>
+                                    <tr>
+                                        <th>学段</th>
+                                        <th data-material-current-label>本月</th>
+                                        <th>去年同期</th>
+                                        <th>同比</th>
+                                        <th>同比差额</th>
+                                        <th data-material-previous-label>上月</th>
+                                        <th>环比</th>
+                                        <th>环比差额</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="gradeMetricsTable">
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="trend-chart-container">
+                        <div class="chart-header">
+                            <h4>学段趋势</h4>
+                            <div class="chart-tabs" role="tablist" aria-label="学段趋势指标选择">
+                                <button class="chart-tab active" data-metric="primarySchool" data-category="grade" role="tab" aria-selected="true" aria-label="小学">小学</button>
+                                <button class="chart-tab" data-metric="middleSchool" data-category="grade" role="tab" aria-selected="false" aria-label="初中">初中</button>
+                                <button class="chart-tab" data-metric="highSchool" data-category="grade" role="tab" aria-selected="false" aria-label="高中">高中</button>
+                                <button class="chart-tab" data-metric="vocationalSchool" data-category="grade" role="tab" aria-selected="false" aria-label="中职">中职</button>
+                            </div>
+                        </div>
+                        <div class="chart-container">
+                            <canvas id="gradeChart" role="img" aria-label="学段趋势图，显示各学段消费数据的同期对比"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            
+            <div class="category-section">
+                <div class="category-header">
+                    <h3>2. 类型分布</h3>
+                    <p>不同资料类型的消费分布情况</p>
+                </div>
+                <div class="dimension-content">
+                    <div class="dimension-charts">
+                        <div class="pie-chart-container">
+                            <canvas id="typeDistributionChart" role="img" aria-label="类型分布饼图，显示试卷、课件、作业、题集、教案的消费占比"></canvas>
+                        </div>
+                        <div class="metrics-table-container">
+                            <table class="dimension-table">
+                                <thead>
+                                    <tr>
+                                        <th>类型</th>
+                                        <th data-material-current-label>本月</th>
+                                        <th>去年同期</th>
+                                        <th>同比</th>
+                                        <th>同比差额</th>
+                                        <th data-material-previous-label>上月</th>
+                                        <th>环比</th>
+                                        <th>环比差额</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="typeMetricsTable">
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="trend-chart-container">
+                        <div class="chart-header">
+                            <h4>类型趋势</h4>
+                            <div class="chart-tabs" role="tablist" aria-label="类型趋势指标选择">
+                                <button class="chart-tab active" data-metric="testPaper" data-category="type" role="tab" aria-selected="true" aria-label="试卷">试卷</button>
+                                <button class="chart-tab" data-metric="courseware" data-category="type" role="tab" aria-selected="false" aria-label="课件">课件</button>
+                                <button class="chart-tab" data-metric="homework" data-category="type" role="tab" aria-selected="false" aria-label="作业">作业</button>
+                                <button class="chart-tab" data-metric="questionSet" data-category="type" role="tab" aria-selected="false" aria-label="题集">题集</button>
+                                <button class="chart-tab" data-metric="teachingPlan" data-category="type" role="tab" aria-selected="false" aria-label="教案">教案</button>
+                            </div>
+                        </div>
+                        <div class="chart-container">
+                            <canvas id="typeChart" role="img" aria-label="类型趋势图，显示各资料类型消费数据的同期对比"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            
+            <div class="category-section">
+                <div class="category-header">
+                    <h3>3. 场景分布</h3>
+                    <p>不同使用场景的资料消费分布情况</p>
+                </div>
+                <div class="dimension-content">
+                    <div class="dimension-charts">
+                        <div class="pie-chart-container">
+                            <canvas id="sceneDistributionChart" role="img" aria-label="场景分布饼图，显示同步教学、高考复习、中考复习、寒暑假的消费占比"></canvas>
+                        </div>
+                        <div class="metrics-table-container">
+                            <table class="dimension-table">
+                                <thead>
+                                    <tr>
+                                        <th>场景</th>
+                                        <th data-material-current-label>本月</th>
+                                        <th>去年同期</th>
+                                        <th>同比</th>
+                                        <th>同比差额</th>
+                                        <th data-material-previous-label>上月</th>
+                                        <th>环比</th>
+                                        <th>环比差额</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="sceneMetricsTable">
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="trend-chart-container">
+                        <div class="chart-header">
+                            <h4>场景趋势</h4>
+                            <div class="chart-tabs" role="tablist" aria-label="场景趋势指标选择">
+                                <button class="chart-tab active" data-metric="synchronousTeaching" data-category="scene" role="tab" aria-selected="true" aria-label="同步教学">同步教学</button>
+                                <button class="chart-tab" data-metric="gaokaoReview" data-category="scene" role="tab" aria-selected="false" aria-label="高考复习">高考复习</button>
+                                <button class="chart-tab" data-metric="zhongkaoReview" data-category="scene" role="tab" aria-selected="false" aria-label="中考复习">中考复习</button>
+                                <button class="chart-tab" data-metric="winterSummerVacation" data-category="scene" role="tab" aria-selected="false" aria-label="寒暑假">寒暑假</button>
+                            </div>
+                        </div>
+                        <div class="chart-container">
+                            <canvas id="sceneChart" role="img" aria-label="场景趋势图，显示各场景消费数据的同期对比"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="merchant-view" class="merchant-view" style="display: none;">
+            <div class="category-section" id="bookstoreMerchantRankingSection">
+                <div class="category-header merchant-ranking-header">
+                    <div class="merchant-ranking-title">
+                        <h3>商家维度</h3>
+                        <p>按当前周期展示消费、增长、下降 Top20 商家，增长和下降均相较去年同期计算</p>
+                    </div>
+                    <div class="merchant-ranking-tabs chart-tabs" role="tablist" aria-label="商家维度排行榜切换">
+                        <button class="merchant-ranking-tab chart-tab active" data-ranking-type="consumption" role="tab" aria-selected="true">消费排行榜</button>
+                        <button class="merchant-ranking-tab chart-tab" data-ranking-type="growth" role="tab" aria-selected="false">增长排行榜</button>
+                        <button class="merchant-ranking-tab chart-tab" data-ranking-type="decline" role="tab" aria-selected="false">下降排行榜</button>
+                    </div>
+                </div>
+                <div class="ranking-container bookstore-merchant-ranking-container">
+                    <table class="ranking-table merchant-ranking-table">
+                        <thead>
+                            <tr>
+                                <th>商家id</th>
+                                <th>商家名称</th>
+                                <th>总消费</th>
+                                <th>去年同期消费</th>
+                                <th>差额</th>
+                            </tr>
+                        </thead>
+                        <tbody id="bookstoreMerchantRankingTableBody"></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        
+        <div id="aibc-view" class="aibc-view" style="display: none;">
+            
+            <div class="category-section">
+                <div class="category-header">
+                    <h3>整体访客数据</h3>
+                    <p>小程序和H5访客统计</p>
+                </div>
+                <div class="category-metrics" id="aibcOverallMetrics">
+                    
+                </div>
+                <div class="category-chart">
+                    <div class="chart-header">
+                        <h4>访客趋势</h4>
+                        <div class="chart-toggle" role="tablist" aria-label="访客趋势切换">
+                            <button id="aibcChartToggleTotal" class="toggle-btn active" role="tab" aria-selected="true" aria-label="总览">总览</button>
+                            <button id="aibcChartToggleMiniApp" class="toggle-btn" role="tab" aria-selected="false" aria-label="小程序">小程序</button>
+                            <button id="aibcChartToggleH5" class="toggle-btn" role="tab" aria-selected="false" aria-label="H5">H5</button>
+                        </div>
+                    </div>
+                    <div class="chart-container">
+                        <canvas id="aibcOverallChart" role="img" aria-label="智书整体访客趋势图，显示小程序和H5访客同期对比"></canvas>
+                    </div>
+                </div>
+            </div>
+
+            
+            <div class="category-section">
+                <div class="category-header">
+                    <h3>商家访客数据</h3>
+                    <p>各商家的访客统计与趋势</p>
+                </div>
+                <div id="aibcMerchantFilter" style="margin-bottom: 15px;">
+                    <div class="time-selector">
+                        <label id="merchantCardSelectorLabel">商家选择：</label>
+                        <div class="custom-multiselect" id="merchantCardSelectorContainer">
+                            <button class="custom-multiselect-button" id="merchantCardSelectorButton">
+                                <span id="merchantCardSelectorText">选择商家</span>
+                            </button>
+                            <div class="custom-multiselect-dropdown" id="merchantCardSelectorDropdown">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="category-metrics" id="aibcMerchantMetrics">
+                    
+                </div>
+                <div class="category-chart">
+                    <div class="chart-header">
+                        <h4>商家访客趋势</h4>
+                        <div class="time-selector">
+                            <label id="merchantSelectorLabel">商家选择：</label>
+                            <div class="custom-multiselect" id="merchantSelectorContainer">
+                                <button class="custom-multiselect-button" id="merchantSelectorButton">
+                                    <span id="merchantSelectorText">选择商家</span>
+                                </button>
+                                <div class="custom-multiselect-dropdown" id="merchantSelectorDropdown">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="chart-container">
+                        <canvas id="aibcMerchantChart" role="img" aria-label="商家访客趋势图，显示各商家访客数据的同期对比"></canvas>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 图书访客排行榜 -->
+            <div class="category-section">
+                <div class="category-header">
+                    <h3>图书访客排行榜</h3>
+                    <p>图书访客数据排名统计</p>
+                </div>
+                <div class="ranking-tabs" role="tablist" aria-label="排行榜切换">
+                    <button id="weeklyRankingBtn" class="ranking-tab active" role="tab" aria-selected="true" aria-label="周排行榜">周排行榜</button>
+                    <button id="totalRankingBtn" class="ranking-tab" role="tab" aria-selected="false" aria-label="总排行榜">总排行榜</button>
+                </div>
+                <div id="aibcBookRankingContainer" class="ranking-container" role="region" aria-label="图书访客排行榜">
+                    <table class="ranking-table" role="table" aria-label="图书访客排行榜数据">
+                        <thead>
+                            <tr>
+                                <th scope="col">排序</th>
+                                <th scope="col">图书ID</th>
+                                <th scope="col">商家名称</th>
+                                <th scope="col">图书名称</th>
+                                <th scope="col">访客数</th>
+                            </tr>
+                        </thead>
+                        <tbody id="rankingTableBody">
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+    
+    <div id="aiChatModal" class="ai-chat-modal" style="display: none;" role="dialog" aria-modal="true" aria-labelledby="aiChatModalTitle" aria-hidden="true">
+        <div class="ai-chat-container">
+            <div class="ai-chat-header">
+                <div class="ai-chat-title" id="aiChatModalTitle">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                        <path d="M12 2L13.09 8.26L20 9L13.09 9.74L12 16L10.91 9.74L4 9L10.91 8.26L12 2Z" stroke="currentColor" stroke-width="2" fill="currentColor" opacity="0.8"/>
+                    </svg>
+                    AI数据分析助手
+                </div>
+                <div class="chat-controls">
+                    <button id="minimizeChatBtn" class="control-btn" aria-label="最小化对话窗口" title="最小化">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                            <path d="M6 12h12" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                        </svg>
+                    </button>
+                    <button id="resizeChatBtn" class="control-btn" aria-label="调整对话窗口大小" title="调整大小">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                            <path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                    </button>
+                    <button id="closeChatModal" class="control-btn close-btn" aria-label="关闭AI对话窗口">×</button>
+                </div>
+            </div>
+
+            <div id="aiChatMessages" class="ai-chat-messages">
+                <div class="ai-message">
+                    <div class="message-avatar">AI</div>
+                    <div class="message-content">
+                        <p>您好！我是您的数据分析助手。我可以帮您分析当前数据周期的业务表现，或者回答您关于数据的任何问题。</p>
+                        <p>请选择一个选项开始：</p>
+                        <div class="quick-actions">
+                            <button class="quick-btn" data-action="startDataAnalysis" aria-label="分析当前数据">📊 分析当前数据</button>
+                            <button class="quick-btn" data-action="askCustomQuestion" aria-label="自定义提问">💬 自定义提问</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="ai-chat-input">
+                <input type="text" id="chatInput" placeholder="输入您的问题..." aria-label="输入问题" />
+                <button id="sendChatBtn" aria-label="发送消息">发送</button>
+            </div>
+        </div>
+    </div>
+
+    
+    <div id="aiChatMinimized" class="ai-chat-minimized" style="display: none;" role="region" aria-label="最小化的AI对话窗口">
+        <div class="minimized-header">
+            <div class="minimized-title">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                    <path d="M12 2L13.09 8.26L20 9L13.09 9.74L12 16L10.91 9.74L4 9L10.91 8.26L12 2Z" stroke="currentColor" stroke-width="2" fill="currentColor" opacity="0.8"/>
+                </svg>
+                AI助手
+                <span id="minimizedStatus" class="status-indicator" aria-live="polite"></span>
+            </div>
+            <div class="minimized-controls">
+                <button id="restoreChatBtn" class="control-btn" aria-label="还原AI对话窗口" title="还原">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                        <path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </button>
+                <button id="closeMinimizedBtn" class="control-btn close-btn" aria-label="关闭AI对话窗口">×</button>
+            </div>
+        </div>
+        <div id="minimizedMessages" class="minimized-messages">
+            
+        </div>
+    </div>
+
+
+    
+    <!-- JS 模块（defer：不阻塞渲染，按声明顺序执行） -->
+    <script src="period.js" defer></script>
+    <script src="utils-metrics.js?v=16" defer></script>
+    <script src="multiSelect.js" defer></script>
+    <script src="utils-charts.js?v=15" defer></script>
+    <script src="dataLoader.js?v=24" defer></script>
+    <script src="state.js" defer></script>
+    <script src="dataIndex.js" defer></script>
+    <script src="dataUtils.js" defer></script>
+    <script src="config.js" defer></script>
+    <script src="aiAnalyzer.js" defer></script>
+    <script src="aiChat.js" defer></script>
+    <script src="dashboard.js?v=17" defer></script>
+    <script src="dataMode.js?v=16" defer></script>
+    <script src="metrics.js?v=18" defer></script>
+    <script src="charts.js" defer></script>
+    <script src="events.js?v=17" defer></script>
+    <script src="init.js?v=15" defer></script>
+    
+    <!-- 键盘快捷键帮助按钮 -->
+    <button id="helpShortcutsBtn" class="help-shortcuts-btn" aria-label="查看键盘快捷键" title="键盘快捷键 (Alt+H)">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <rect x="2" y="6" width="20" height="12" rx="2" stroke="currentColor" stroke-width="2"/>
+            <path d="M6 10h.01M10 10h.01M14 10h.01M18 10h.01M7 14h10" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+        </svg>
+    </button>
+    
+    <!-- 键盘快捷键帮助面板 -->
+    <div id="shortcutsHelp" class="shortcuts-help" role="dialog" aria-modal="true" aria-label="键盘快捷键帮助" aria-hidden="true" style="display: none;">
+        <div class="shortcuts-content">
+            <div class="shortcuts-header">
+                <h3>键盘快捷键</h3>
+                <button class="shortcuts-close" id="shortcutsCloseBtn" aria-label="关闭快捷键帮助">&times;</button>
+            </div>
+            <div class="shortcuts-body">
+                <div class="shortcut-group">
+                    <h4>导航</h4>
+                    <ul>
+                        <li><kbd>Alt</kbd> + <kbd>B</kbd> 切换到书城看板</li>
+                        <li><kbd>Alt</kbd> + <kbd>I</kbd> 切换到智书看板</li>
+                        <li><kbd>Alt</kbd> + <kbd>1</kbd> 切换到周度数据</li>
+                        <li><kbd>Alt</kbd> + <kbd>2</kbd> 切换到月度数据</li>
+                    </ul>
+                </div>
+                <div class="shortcut-group">
+                    <h4>功能</h4>
+                    <ul>
+                        <li><kbd>Alt</kbd> + <kbd>A</kbd> 打开AI分析助手</li>
+                    </ul>
+                </div>
+                <div class="shortcut-group">
+                    <h4>通用</h4>
+                    <ul>
+                        <li><kbd>Esc</kbd> 关闭当前对话框</li>
+                        <li><kbd>Tab</kbd> 焦点循环（在对话框内）</li>
+                        <li><kbd>Alt</kbd> + <kbd>H</kbd> 显示/隐藏此帮助</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script src="shortcuts.js" defer></script>
+</body>
+</html>
