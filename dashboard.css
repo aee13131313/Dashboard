@@ -2056,9 +2056,24 @@ gap: 24px;
 padding: 28px;
 }
 
-/* 智书整体访客数据区域：一行显示6个卡片 */
+/* 智书整体访客数据区域：一行显示6个卡片，允许在窄屏下自适应收缩避免溢出 */
 #aibcOverallMetrics {
-grid-template-columns: repeat(6, 1fr);
+grid-template-columns: repeat(6, minmax(0, 1fr));
+gap: 20px;
+}
+
+#aibcOverallMetrics .detail-metric-card {
+min-width: 0;
+}
+
+/* 智书整体访客卡片内部 change 行允许在窄列下收缩，避免文字被截断 */
+#aibcOverallMetrics .detail-metric-changes {
+grid-template-columns: 1fr 1fr;
+}
+
+#aibcOverallMetrics .detail-metric-changes > div {
+min-width: 0;
+overflow: hidden;
 }
 
 #userSection {
