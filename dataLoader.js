@@ -10,7 +10,7 @@
 
 const DataLoader = {
     // 数据文件版本号：更新 CSV 后同步提升，避免浏览器继续读取旧 JSON/JS 缓存
-    dataVersion: '20260821-weekly-20260814-0820',
+    dataVersion: '20260821-remove-aibc-test-merchants',
 
     // 是否使用 file:// 协议打开
     isFileProtocol: window.location.protocol === 'file:',
