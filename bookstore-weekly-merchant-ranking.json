@@ -1,4 +1,492 @@
 {
+  "2026.8.14-2026.8.20": {
+    "consumption": [
+      {
+        "rank": 1,
+        "merchantId": "500566",
+        "merchantName": "山东金榜苑文化传媒有限责任公司",
+        "totalConsumption": 8975.28,
+        "yearAgoConsumption": 2542.66,
+        "diff": 6432.62
+      },
+      {
+        "rank": 2,
+        "merchantId": "500339",
+        "merchantName": "山东鼎鑫书业有限公司",
+        "totalConsumption": 3609.88,
+        "yearAgoConsumption": 2103.4,
+        "diff": 1506.48
+      },
+      {
+        "rank": 3,
+        "merchantId": "503992",
+        "merchantName": "长歌文化",
+        "totalConsumption": 3562.36,
+        "yearAgoConsumption": 2881.86,
+        "diff": 680.5
+      },
+      {
+        "rank": 4,
+        "merchantId": "500162",
+        "merchantName": "郑州荣恒图书发行有限公司",
+        "totalConsumption": 2732.82,
+        "yearAgoConsumption": 966.9,
+        "diff": 1765.92
+      },
+      {
+        "rank": 5,
+        "merchantId": "500261",
+        "merchantName": "山东正禾大教育科技有限公司",
+        "totalConsumption": 2638.6,
+        "yearAgoConsumption": 2883.82,
+        "diff": -245.22
+      },
+      {
+        "rank": 6,
+        "merchantId": "500318",
+        "merchantName": "湖北盈未来教育科技有限公司",
+        "totalConsumption": 2393.4,
+        "yearAgoConsumption": 1205.5,
+        "diff": 1187.9
+      },
+      {
+        "rank": 7,
+        "merchantId": "520221",
+        "merchantName": "见山文化",
+        "totalConsumption": 2295,
+        "yearAgoConsumption": 0,
+        "diff": 2295
+      },
+      {
+        "rank": 8,
+        "merchantId": "514867",
+        "merchantName": "拾光树文化",
+        "totalConsumption": 2215.6,
+        "yearAgoConsumption": 0,
+        "diff": 2215.6
+      },
+      {
+        "rank": 9,
+        "merchantId": "905437",
+        "merchantName": "高智传媒科技中心",
+        "totalConsumption": 2153.2,
+        "yearAgoConsumption": 1757.6,
+        "diff": 395.6
+      },
+      {
+        "rank": 10,
+        "merchantId": "500538",
+        "merchantName": "安徽木牍教育图书有限公司",
+        "totalConsumption": 2029.3,
+        "yearAgoConsumption": 2387.4,
+        "diff": -358.1
+      },
+      {
+        "rank": 11,
+        "merchantId": "500312",
+        "merchantName": "江苏通典文化传媒集团有限公司",
+        "totalConsumption": 1947.6,
+        "yearAgoConsumption": 1736,
+        "diff": 211.6
+      },
+      {
+        "rank": 12,
+        "merchantId": "500507",
+        "merchantName": "山东育博苑文化传媒有限公司",
+        "totalConsumption": 1840.18,
+        "yearAgoConsumption": 2437.02,
+        "diff": -596.84
+      },
+      {
+        "rank": 13,
+        "merchantId": "500283",
+        "merchantName": "哈尔滨勤为径图书经销有限公司",
+        "totalConsumption": 1709.2,
+        "yearAgoConsumption": 3915.56,
+        "diff": -2206.36
+      },
+      {
+        "rank": 14,
+        "merchantId": "500188",
+        "merchantName": "山东绿卡教育科技有限公司",
+        "totalConsumption": 1610.4,
+        "yearAgoConsumption": 174.1,
+        "diff": 1436.3
+      },
+      {
+        "rank": 15,
+        "merchantId": "500285",
+        "merchantName": "山东一帆融媒教育科技有限公司",
+        "totalConsumption": 1532.8,
+        "yearAgoConsumption": 3495.1,
+        "diff": -1962.3
+      },
+      {
+        "rank": 16,
+        "merchantId": "500410",
+        "merchantName": "湖北时代卓锦文化传媒有限公司",
+        "totalConsumption": 1199,
+        "yearAgoConsumption": 434.2,
+        "diff": 764.8
+      },
+      {
+        "rank": 17,
+        "merchantId": "500172",
+        "merchantName": "陕西灰犀牛图书策划有限公司",
+        "totalConsumption": 1189.6,
+        "yearAgoConsumption": 1089.7,
+        "diff": 99.9
+      },
+      {
+        "rank": 18,
+        "merchantId": "500232",
+        "merchantName": "洛阳品学文化传播有限公司",
+        "totalConsumption": 1162.52,
+        "yearAgoConsumption": 943.4,
+        "diff": 219.12
+      },
+      {
+        "rank": 19,
+        "merchantId": "500179",
+        "merchantName": "洛阳朝霞文化股份有限公司",
+        "totalConsumption": 1126.29,
+        "yearAgoConsumption": 1591.3,
+        "diff": -465.01
+      },
+      {
+        "rank": 20,
+        "merchantId": "500573",
+        "merchantName": "山东接力教育集团有限公司",
+        "totalConsumption": 940.9,
+        "yearAgoConsumption": 5110.62,
+        "diff": -4169.72
+      }
+    ],
+    "growth": [
+      {
+        "rank": 1,
+        "merchantId": "500566",
+        "merchantName": "山东金榜苑文化传媒有限责任公司",
+        "totalConsumption": 8975.28,
+        "yearAgoConsumption": 2542.66,
+        "diff": 6432.62
+      },
+      {
+        "rank": 2,
+        "merchantId": "520221",
+        "merchantName": "见山文化",
+        "totalConsumption": 2295,
+        "yearAgoConsumption": 0,
+        "diff": 2295
+      },
+      {
+        "rank": 3,
+        "merchantId": "514867",
+        "merchantName": "拾光树文化",
+        "totalConsumption": 2215.6,
+        "yearAgoConsumption": 0,
+        "diff": 2215.6
+      },
+      {
+        "rank": 4,
+        "merchantId": "500162",
+        "merchantName": "郑州荣恒图书发行有限公司",
+        "totalConsumption": 2732.82,
+        "yearAgoConsumption": 966.9,
+        "diff": 1765.92
+      },
+      {
+        "rank": 5,
+        "merchantId": "500339",
+        "merchantName": "山东鼎鑫书业有限公司",
+        "totalConsumption": 3609.88,
+        "yearAgoConsumption": 2103.4,
+        "diff": 1506.48
+      },
+      {
+        "rank": 6,
+        "merchantId": "500188",
+        "merchantName": "山东绿卡教育科技有限公司",
+        "totalConsumption": 1610.4,
+        "yearAgoConsumption": 174.1,
+        "diff": 1436.3
+      },
+      {
+        "rank": 7,
+        "merchantId": "500318",
+        "merchantName": "湖北盈未来教育科技有限公司",
+        "totalConsumption": 2393.4,
+        "yearAgoConsumption": 1205.5,
+        "diff": 1187.9
+      },
+      {
+        "rank": 8,
+        "merchantId": "511590",
+        "merchantName": "衡水天枢教育发展有限公司",
+        "totalConsumption": 839.2,
+        "yearAgoConsumption": 0,
+        "diff": 839.2
+      },
+      {
+        "rank": 9,
+        "merchantId": "518061",
+        "merchantName": "梁山金大文化传媒有限公司",
+        "totalConsumption": 814,
+        "yearAgoConsumption": 0,
+        "diff": 814
+      },
+      {
+        "rank": 10,
+        "merchantId": "523621",
+        "merchantName": "江苏春雨教育集团有限公司",
+        "totalConsumption": 805.5,
+        "yearAgoConsumption": 0,
+        "diff": 805.5
+      },
+      {
+        "rank": 11,
+        "merchantId": "500410",
+        "merchantName": "湖北时代卓锦文化传媒有限公司",
+        "totalConsumption": 1199,
+        "yearAgoConsumption": 434.2,
+        "diff": 764.8
+      },
+      {
+        "rank": 12,
+        "merchantId": "503992",
+        "merchantName": "长歌文化",
+        "totalConsumption": 3562.36,
+        "yearAgoConsumption": 2881.86,
+        "diff": 680.5
+      },
+      {
+        "rank": 13,
+        "merchantId": "500210",
+        "merchantName": "河北斗米文化传媒有限公司",
+        "totalConsumption": 886.3,
+        "yearAgoConsumption": 393.2,
+        "diff": 493.1
+      },
+      {
+        "rank": 14,
+        "merchantId": "500177",
+        "merchantName": "河北志东图书有限公司",
+        "totalConsumption": 740.76,
+        "yearAgoConsumption": 310,
+        "diff": 430.76
+      },
+      {
+        "rank": 15,
+        "merchantId": "905437",
+        "merchantName": "高智传媒科技中心",
+        "totalConsumption": 2153.2,
+        "yearAgoConsumption": 1757.6,
+        "diff": 395.6
+      },
+      {
+        "rank": 16,
+        "merchantId": "500644",
+        "merchantName": "广东文晖文化传播有限公司",
+        "totalConsumption": 359.4,
+        "yearAgoConsumption": 34,
+        "diff": 325.4
+      },
+      {
+        "rank": 17,
+        "merchantId": "520481",
+        "merchantName": "武汉鑫南泓文化传媒有限公司",
+        "totalConsumption": 315.2,
+        "yearAgoConsumption": 0,
+        "diff": 315.2
+      },
+      {
+        "rank": 18,
+        "merchantId": "500553",
+        "merchantName": "山东中联翰元教育科技有限公司",
+        "totalConsumption": 569.88,
+        "yearAgoConsumption": 287.1,
+        "diff": 282.78
+      },
+      {
+        "rank": 19,
+        "merchantId": "518382",
+        "merchantName": "东北书局",
+        "totalConsumption": 274.4,
+        "yearAgoConsumption": 0,
+        "diff": 274.4
+      },
+      {
+        "rank": 20,
+        "merchantId": "511775",
+        "merchantName": "陕西文韬文化传媒有限公司",
+        "totalConsumption": 256,
+        "yearAgoConsumption": 0,
+        "diff": 256
+      }
+    ],
+    "decline": [
+      {
+        "rank": 1,
+        "merchantId": "500573",
+        "merchantName": "山东接力教育集团有限公司",
+        "totalConsumption": 940.9,
+        "yearAgoConsumption": 5110.62,
+        "diff": -4169.72
+      },
+      {
+        "rank": 2,
+        "merchantId": "500408",
+        "merchantName": "河北华冠图书有限公司",
+        "totalConsumption": 534.2,
+        "yearAgoConsumption": 3486.18,
+        "diff": -2951.98
+      },
+      {
+        "rank": 3,
+        "merchantId": "500283",
+        "merchantName": "哈尔滨勤为径图书经销有限公司",
+        "totalConsumption": 1709.2,
+        "yearAgoConsumption": 3915.56,
+        "diff": -2206.36
+      },
+      {
+        "rank": 4,
+        "merchantId": "500285",
+        "merchantName": "山东一帆融媒教育科技有限公司",
+        "totalConsumption": 1532.8,
+        "yearAgoConsumption": 3495.1,
+        "diff": -1962.3
+      },
+      {
+        "rank": 5,
+        "merchantId": "500505",
+        "merchantName": "湖北千里万卷教育科技有限责任公司",
+        "totalConsumption": 221.2,
+        "yearAgoConsumption": 1855.27,
+        "diff": -1634.07
+      },
+      {
+        "rank": 6,
+        "merchantId": "500514",
+        "merchantName": "河北考源书业有限公司",
+        "totalConsumption": 146.9,
+        "yearAgoConsumption": 1529.22,
+        "diff": -1382.32
+      },
+      {
+        "rank": 7,
+        "merchantId": "500377",
+        "merchantName": "山东泰斗文化传播有限公司",
+        "totalConsumption": 308.2,
+        "yearAgoConsumption": 1593.3,
+        "diff": -1285.1
+      },
+      {
+        "rank": 8,
+        "merchantId": "504623",
+        "merchantName": "开心教辅图书",
+        "totalConsumption": 171.7,
+        "yearAgoConsumption": 1446.3,
+        "diff": -1274.6
+      },
+      {
+        "rank": 9,
+        "merchantId": "500379",
+        "merchantName": "南京经纶文化传媒有限公司",
+        "totalConsumption": 554.96,
+        "yearAgoConsumption": 1699.33,
+        "diff": -1144.37
+      },
+      {
+        "rank": 10,
+        "merchantId": "500175",
+        "merchantName": "济南小鸣同学教育科技有限公司",
+        "totalConsumption": 70.7,
+        "yearAgoConsumption": 1194.01,
+        "diff": -1123.31
+      },
+      {
+        "rank": 11,
+        "merchantId": "500343",
+        "merchantName": "山东佰鸿壹铭教育科技有限公司",
+        "totalConsumption": 142,
+        "yearAgoConsumption": 1113.4,
+        "diff": -971.4
+      },
+      {
+        "rank": 12,
+        "merchantId": "500572",
+        "merchantName": "山东金太阳教育集团有限公司",
+        "totalConsumption": 239.8,
+        "yearAgoConsumption": 1155.2,
+        "diff": -915.4
+      },
+      {
+        "rank": 13,
+        "merchantId": "500187",
+        "merchantName": "荆州市南宇图书有限公司",
+        "totalConsumption": 73.2,
+        "yearAgoConsumption": 983.8,
+        "diff": -910.6
+      },
+      {
+        "rank": 14,
+        "merchantId": "500299",
+        "merchantName": "山东众旺汇金教育科技有限公司",
+        "totalConsumption": 691.2,
+        "yearAgoConsumption": 1497.6,
+        "diff": -806.4
+      },
+      {
+        "rank": 15,
+        "merchantId": "505620",
+        "merchantName": "湖南书虫教育科技有限公司",
+        "totalConsumption": 262.2,
+        "yearAgoConsumption": 942.4,
+        "diff": -680.2
+      },
+      {
+        "rank": 16,
+        "merchantId": "500507",
+        "merchantName": "山东育博苑文化传媒有限公司",
+        "totalConsumption": 1840.18,
+        "yearAgoConsumption": 2437.02,
+        "diff": -596.84
+      },
+      {
+        "rank": 17,
+        "merchantId": "500297",
+        "merchantName": "河南文轩文化传播有限公司",
+        "totalConsumption": 18,
+        "yearAgoConsumption": 584.4,
+        "diff": -566.4
+      },
+      {
+        "rank": 18,
+        "merchantId": "500696",
+        "merchantName": "山东面向未来图书销售有限公司",
+        "totalConsumption": 293.9,
+        "yearAgoConsumption": 853.86,
+        "diff": -559.96
+      },
+      {
+        "rank": 19,
+        "merchantId": "500309",
+        "merchantName": "武汉睿芯教育科技有限公司",
+        "totalConsumption": 145.02,
+        "yearAgoConsumption": 693.28,
+        "diff": -548.26
+      },
+      {
+        "rank": 20,
+        "merchantId": "500745",
+        "merchantName": "深圳天骄文化传播有限公司",
+        "totalConsumption": 801.76,
+        "yearAgoConsumption": 1345.3,
+        "diff": -543.54
+      }
+    ]
+  },
   "2026.8.7-2026.8.13": {
     "consumption": [
       {

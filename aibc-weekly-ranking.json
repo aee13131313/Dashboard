@@ -1,4 +1,150 @@
 {
+  "2026.8.14-2026.8.20": {
+    "weekly": [
+      {
+        "rank": 1,
+        "bookId": 1772,
+        "merchantName": "梁山金大文化传媒有限公司",
+        "bookName": "创新大课堂 高三总复习 物理",
+        "visitors": 55
+      },
+      {
+        "rank": 2,
+        "bookId": 1788,
+        "merchantName": "武汉鑫南泓文化传媒有限公司",
+        "bookName": "高效课堂.九年级数学.上册",
+        "visitors": 28
+      },
+      {
+        "rank": 3,
+        "bookId": 1777,
+        "merchantName": "梁山金大文化传媒有限公司",
+        "bookName": "创新大课堂 高三总复习 英语 （北师大版）",
+        "visitors": 25
+      },
+      {
+        "rank": 4,
+        "bookId": 1545,
+        "merchantName": "江西宇恒文化发展有限公司",
+        "bookName": "26秋 英语作业本 8年级英语人教通用上册",
+        "visitors": 18
+      },
+      {
+        "rank": 5,
+        "bookId": 1555,
+        "merchantName": "江西宇恒文化发展有限公司",
+        "bookName": "26秋 数学作业本 8年级数学人教上册",
+        "visitors": 17
+      },
+      {
+        "rank": 6,
+        "bookId": 1543,
+        "merchantName": "江西宇恒文化发展有限公司",
+        "bookName": "26秋 英语作业本 9年级英语人教AH上册",
+        "visitors": 13
+      },
+      {
+        "rank": 7,
+        "bookId": 1761,
+        "merchantName": "梁山金大文化传媒有限公司",
+        "bookName": "创新大课堂 高三总复习 数学",
+        "visitors": 12
+      },
+      {
+        "rank": 8,
+        "bookId": 1762,
+        "merchantName": "梁山金大文化传媒有限公司",
+        "bookName": "创新大课堂 高三总复习 思想政治",
+        "visitors": 12
+      },
+      {
+        "rank": 9,
+        "bookId": 1551,
+        "merchantName": "江西宇恒文化发展有限公司",
+        "bookName": "26秋 数学作业本 9年级数学人教上册",
+        "visitors": 11
+      },
+      {
+        "rank": 10,
+        "bookId": 1575,
+        "merchantName": "江西宇恒文化发展有限公司",
+        "bookName": "26秋 化学作业本 9年级化学人教通用上册",
+        "visitors": 10
+      }
+    ],
+    "total": [
+      {
+        "rank": 1,
+        "bookId": 1709,
+        "merchantName": "江西宇恒文化发展有限公司",
+        "bookName": "26春初中期末抢分卷7年级下册（7科）",
+        "visitors": 2108
+      },
+      {
+        "rank": 2,
+        "bookId": 744,
+        "merchantName": "江西宇恒文化发展有限公司",
+        "bookName": "学海风暴七年级英语RJ版下册",
+        "visitors": 1898
+      },
+      {
+        "rank": 3,
+        "bookId": 740,
+        "merchantName": "江西宇恒文化发展有限公司",
+        "bookName": "学海乐园英语三年级RJ版下册",
+        "visitors": 1840
+      },
+      {
+        "rank": 4,
+        "bookId": 523,
+        "merchantName": "陕西灰犀牛图书策划有限公司",
+        "bookName": "一战成名新中考·纯练版总复习·2025语文",
+        "visitors": 1804
+      },
+      {
+        "rank": 5,
+        "bookId": 520,
+        "merchantName": "陕西灰犀牛图书策划有限公司",
+        "bookName": "一战成名新中考·新方案·2025生物",
+        "visitors": 1605
+      },
+      {
+        "rank": 6,
+        "bookId": 847,
+        "merchantName": "江西宇恒文化发展有限公司",
+        "bookName": "25秋 校本学案 九年级 英语 RJ版 上册",
+        "visitors": 1506
+      },
+      {
+        "rank": 7,
+        "bookId": 901,
+        "merchantName": "江苏凤凰电子音像出版社有限公司",
+        "bookName": "初高中衔接课程 数学",
+        "visitors": 1252
+      },
+      {
+        "rank": 8,
+        "bookId": 970,
+        "merchantName": "江西宇恒文化发展有限公司",
+        "bookName": "25秋 校本学案  八年级 英语 RJ版 上册",
+        "visitors": 1246
+      },
+      {
+        "rank": 9,
+        "bookId": 980,
+        "merchantName": "江西宇恒文化发展有限公司",
+        "bookName": "25秋 校本学案 七年级 英语 RJ版 上册",
+        "visitors": 1200
+      },
+      {
+        "rank": 10,
+        "bookId": 1392,
+        "merchantName": "江西宇恒文化发展有限公司",
+        "bookName": "初中生地会考冲A超级考卷 生物学",
+        "visitors": 1167
+      }
+    ]
+  },
   "2026.8.7-2026.8.13": {
     "weekly": [
       {

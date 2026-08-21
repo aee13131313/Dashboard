@@ -10,7 +10,7 @@
 
 const DataLoader = {
     // 数据文件版本号：更新 CSV 后同步提升，避免浏览器继续读取旧 JSON/JS 缓存
-    dataVersion: '20260814-weekly-20260807-0813',
+    dataVersion: '20260821-weekly-20260814-0820',
 
     // 是否使用 file:// 协议打开
     isFileProtocol: window.location.protocol === 'file:',
